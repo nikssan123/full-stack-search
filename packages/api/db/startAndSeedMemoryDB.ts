@@ -1,5 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 import { cities } from "db/seeds/cities.js";
 import { countries } from "./seeds/countries";
 import { hotels } from "./seeds/hotels";
@@ -15,17 +15,28 @@ const uri = mongod.getUri();
 
 process.env.DATABASE_URL = uri;
 
-const client = new MongoClient(uri);
-try {
-  await client.connect();
-  const db = client.db();
-  await db.collection("cities").insertMany(cities);
-  await db.collection("countries").insertMany(countries);
-  await db.collection("hotels").insertMany(hotels);
-} catch (error) {
-  console.error("Error seeding database:", error);
-} finally {
-  await client.close();
+let client: MongoClient;
+let db: Db;
+
+export async function connectDB(): Promise<Db> {
+  if (!client) {
+    client = new MongoClient(uri);
+    await client.connect();
+    db = client.db();
+
+    const countriesCollection = db.collection("countries");
+    const citiesCollection = db.collection("cities");
+    const hotelsCollection = db.collection("hotels");
+
+    await countriesCollection.insertMany(countries);
+    await citiesCollection.insertMany(cities);
+    await hotelsCollection.insertMany(hotels);
+
+    countriesCollection.createIndex({ name: "text" });
+    citiesCollection.createIndex({ name: "text" });
+    hotelsCollection.createIndex({ name: "text", country: "text" });
+  }
+  return db;
 }
 
 process.on('SIGTERM', async () => {
