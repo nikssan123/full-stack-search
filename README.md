@@ -90,6 +90,50 @@ For larger or more time-intensive changes, you're welcome to outline your ideas 
 
 <!-- Write-up/conclusion section -->
 
+### Use Singleton Pattern for the DB instance
+Currently, a new database connection is created for each request, which is inefficient
+Instead, the database connection should be managed as a singleton to improve performance and reduce resource usage
+
+### Move the filtering to the backend instead of the frontend
+Right now, filtering is being handled on the frontend, which can lead to performance issues with huge datasets
+
+### Database Structure 
+There are three separate collections/tables, but it's unclear how they are related
+If they reference each other (e.g., a hotel belongs to a city, which belongs to a country), a relation can be build using Foreign Keys
+
+### Improving the folder structure
+By improving the folder structure we can achieve a higher separation of concern - each folder has its own assignment - clean and maintanable code
+Which can lead to better reusability of the components and easier scalability for the future
+
+### Pagination 
+Introducing pagination in the client can help with the clutter in the dropdown
+Paginating the results will also improve the performance in the client when there are huge datasets
+
+### Centralized Middleware for error handling
+Currently, errors are being caught manually in each route. 
+Instead, a centralized error-handling middleware was added to improve the overall handling of errors
+
+### Debounce API calls in the frontend
+Frequent API calls (on each search input) can overload the server. 
+I added a debouncing to the API is called once the user stop typing for 300ms
+
+### Adding react router for displaying info
+In order to display properly the info page, I added react router
+
+### REST API for Hotel CRUD Operations - Input Sanitization
+All CRUD operations should be properly structured with input sanitization to prevent security risks (NoSQL injection)
+This gives the users access to a better structured API where they can add,edit or delete a hotel
+
+### Authentication and Authorization
+Currently, the API is open to everyone. Authentication  and Authorization should be implemented
+Using JWT can help with that and each route can be protetected if needed with middleware
+
+### Tests
+I've added some tests to the frontend to verify that the logic works as expected
+
+### Caching 
+To reduce load on the database, frequently accessed data should be cached using Redis or other tool
+
 _When all the behaviour is implemented, feel free to add some observations or conclusions you like to share in the section_
 
 ### Database structure
