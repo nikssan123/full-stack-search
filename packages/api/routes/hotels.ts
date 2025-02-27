@@ -6,7 +6,7 @@ import { ObjectId } from "mongodb";
 const router = express.Router();
 
 router.get("/",  async (req, res, next) => {
-  try{
+  try {
     const db = await connectDB();
 
     const { query, page = 1, limit = PAGE_LIMIT } = req.query;
@@ -14,13 +14,13 @@ router.get("/",  async (req, res, next) => {
     const searchRes = await searchHotels(db, query as string, Number(page), Number(limit));
 
     res.json(searchRes);
-  }catch(error){
+  } catch(error) {
     return next({ status: 500, message: "Error when searching hotels!"});
   }
 });
 
 router.post("/", async (req, res, next) => {
-    try{
+    try {
         const db = await connectDB();
 
         const parsedBody = hotelCreationSchema.parse(req.body);
@@ -28,18 +28,18 @@ router.post("/", async (req, res, next) => {
         const result = await db.collection("hotels").insertOne(parsedBody);
 
         res.json({ message: "Successfully created a new hotel", result });
-    }catch {
+    } catch {
         return next({ status: 500, message: "Error when creating a new hotel!"});
     }
 });
 
 router.get("/:id",  async (req, res, next) => {
-  try{
+  try {
     const db = await connectDB();
     const result = await searchById(db, req.params.id, "hotels")
 
     res.json(result);
-  }catch(error){
+  } catch(error) {
     return next({ status: 500, message: `Error when searching for a hotel with id: ${req.params.id}`});
   }
 });

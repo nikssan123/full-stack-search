@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const PAGE_LIMIT = 1;
+export const PAGE_LIMIT = 5;
 
 export interface Hotel {
     chain_name: string;

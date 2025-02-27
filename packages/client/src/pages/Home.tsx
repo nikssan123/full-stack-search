@@ -117,7 +117,7 @@ function Home() {
                                 )}
                             </div>
                             {(!!hotels.data.length || !!countries.data.length || !!cities.data.length) && (
-                                <div className="search-dropdown-menu dropdown-menu w-100 show p-2">
+                                <div className="search-dropdown-menu dropdown-menu w-100 show p-2 remove-overflow-x">
                                     <h2>Hotels</h2>
                                     {hotels.data.length ? (
                                         <>

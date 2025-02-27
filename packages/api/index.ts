@@ -12,7 +12,6 @@ import { errorHandler } from "./helpers/errors";
 
 dotenv.config();
 
-
 if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
 const app = express();
@@ -21,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/search', async (req, res, next) => {
-  try{
+  try {
     const db = await connectDB();
     const { query, hotels_page = 1, countries_page = 1, cities_page = 1, limit = PAGE_LIMIT } = req.query;
 
@@ -34,7 +33,7 @@ app.get('/search', async (req, res, next) => {
       countries,
       cities
     });
-  }catch(error){
+  } catch(error) {
     return next({ status: 500, message: "Something went wrong!" });
   }
 });
